@@ -55,11 +55,26 @@ class AddTasksContext implements Context
     }
 
     /**
-     * @Given I add a task with description :arg1
+     * @Given I add a task with description :taskDescription
      */
-    public function iAddATaskWithDescription($arg1)
+    public function iAddATaskWithDescription(string $taskDescription): void
     {
-        throw new PendingException();
+        $payload = [
+            'task' => $taskDescription
+        ];
+        $request = Request::create(
+            '/api/todo',
+            'POST',
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($payload, JSON_THROW_ON_ERROR)
+        );
+
+        $response = $this->kernel->handle($request);
+
+        Assert::eq($response->getStatusCode(), Response::HTTP_CREATED);
     }
 
     /**
