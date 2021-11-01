@@ -1,81 +1,81 @@
 {
-    "type": "project",
-    "name": "tb/base",
-    "description": "Template for practices with testing and symfony 4",
-    "license": "MIT",
-    "require": {
-        "php": "^7.4",
-        "ext-ctype": "*",
-        "ext-iconv": "*",
-        "symfony/browser-kit": "5.3.*",
-        "symfony/console": "5.3.*",
-        "symfony/dotenv": "5.3.*",
-        "symfony/flex": "^1.1",
-        "symfony/framework-bundle": "5.3.*",
-        "symfony/twig-bundle": "5.3.*",
-        "symfony/yaml": "5.3.*"
+  "type": "project",
+  "name": "tb/base",
+  "description": "Template for practices with testing and symfony 4",
+  "license": "MIT",
+  "require": {
+    "php": "^7.4",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "symfony/browser-kit": "5.3.*",
+    "symfony/console": "5.3.*",
+    "symfony/dotenv": "5.3.*",
+    "symfony/flex": "^1.1",
+    "symfony/framework-bundle": "5.3.*",
+    "symfony/twig-bundle": "5.3.*",
+    "symfony/yaml": "5.3.*",
+    "ext-json": "*"
+  },
+  "config": {
+    "bin-dir": "bin",
+    "preferred-install": {
+      "*": "dist"
     },
-    "config": {
-        "bin-dir": "bin",
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-0": {
+      "": "src"
     },
-    "autoload": {
-        "psr-0": {
-            "": "src"
-        },
-        "psr-4": {
-            "App\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\App\\": "tests/",
-            "Design\\App\\": "design/",
-            "Spec\\App\\": "design/Spec/"
-        }
-    },
-    "replace": {
-        "paragonie/random_compat": "2.*",
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php56": "*"
-    },
-    "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ],
-        "test": [
-            "/application/bin/phpunit"
-        ]
-    },
-    "conflict": {
-        "symfony/symfony": "*"
-    },
-    "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "5.3.*"
-        }
-    },
-    "require-dev": {
-        "friends-of-behat/mink-browserkit-driver": "^1.5",
-        "friends-of-behat/mink-extension": "^2.5",
-        "friends-of-behat/symfony-extension": "^2.2",
-        "phpspec/phpspec": "^7.1",
-        "phpunit/phpunit": "^7.0",
-        "roave/security-advisories": "dev-latest",
-        "ext-json": "*"
+    "psr-4": {
+      "App\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\App\\": "tests/",
+      "Design\\App\\": "design/",
+      "Spec\\App\\": "design/Spec/"
+    }
+  },
+  "replace": {
+    "paragonie/random_compat": "2.*",
+    "symfony/polyfill-ctype": "*",
+    "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-php71": "*",
+    "symfony/polyfill-php70": "*",
+    "symfony/polyfill-php56": "*"
+  },
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ],
+    "test": [
+      "/application/bin/phpunit"
+    ]
+  },
+  "conflict": {
+    "symfony/symfony": "*"
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": false,
+      "require": "5.3.*"
+    }
+  },
+  "require-dev": {
+    "friends-of-behat/mink-browserkit-driver": "^1.5",
+    "friends-of-behat/mink-extension": "^2.5",
+    "friends-of-behat/symfony-extension": "^2.2",
+    "phpspec/phpspec": "^7.1",
+    "phpunit/phpunit": "^7.0",
+    "roave/security-advisories": "dev-latest"
+  }
 }
