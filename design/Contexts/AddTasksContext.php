@@ -82,7 +82,11 @@ class AddTasksContext implements Context
      */
     public function iSeeAListContaining(TableNode $table)
     {
-        throw new PendingException();
+        $payload = json_decode($this->response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+
+        $expected = $table->getHash();
+
+        Assert::eq($payload, $expected);
     }
 
     /**

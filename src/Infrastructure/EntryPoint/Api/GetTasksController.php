@@ -10,6 +10,14 @@ class GetTasksController
 {
     public function __invoke(): Response
     {
-        return new JsonResponse(null, Response::HTTP_OK);
+        $tasks = [
+            [
+                'id' => '1',
+                'description' => 'Write a test that fails',
+                'done' => 'no'
+            ]
+        ];
+
+        return new JsonResponse($tasks, Response::HTTP_OK);
     }
 }

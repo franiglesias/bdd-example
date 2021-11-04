@@ -32,6 +32,6 @@ services:
     App\Infrastructure\CommandBus\HandlerLocator:
         calls:
             - registerHandler:
-                  - 'App\Application\AddTask\AddTask'
-                  - '@App\Application\AddTaskHandler'
+                - 'App\Application\AddTask\AddTask'
+                  - '@App\Application\AddTask\AddTaskHandler'
 

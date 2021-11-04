@@ -1,12 +1,10 @@
 <?php
 declare (strict_types=1);
 
-namespace App\Application;
+namespace App\Application\AddTask;
 
-use App\Application\AddTask\AddTask;
 use App\Domain\Task;
 use App\Domain\TaskDescription;
-use App\Domain\TaskId;
 use App\Domain\TaskIdentityProvider;
 use App\Domain\TaskRepository;
 

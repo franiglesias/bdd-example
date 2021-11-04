@@ -3,11 +3,10 @@
 namespace Spec\App\Infrastructure\CommandBus;
 
 use App\Application\AddTask\AddTask;
-use App\Application\AddTaskHandler;
+use App\Application\AddTask\AddTaskHandler;
 use App\Infrastructure\CommandBus\HandlerLocator;
 use App\Infrastructure\CommandBus\TodoListCommandBus;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 /**
  * @mixin TodoListCommandBus
