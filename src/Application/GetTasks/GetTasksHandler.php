@@ -20,6 +20,11 @@ class GetTasksHandler
     {
         $tasks = $this->taskRepository->findAll();
 
+        return $this->transformTasksIntoRepresentation($getTasks, $tasks);
+    }
+
+    public function transformTasksIntoRepresentation(GetTasks $getTasks, $tasks): array
+    {
         $transformer = $getTasks->transformer();
 
         return array_map(static fn(Task $task) => $transformer->transform($task), $tasks);

@@ -34,12 +34,7 @@ class AddTasksContext implements Context
      */
     public function iGetMyTasks(): void
     {
-        $request = Request::create(
-            '/api/todo',
-            'GET'
-        );
-
-        $this->response = $this->kernel->handle($request);
+        $this->response = $this->apiGet('/api/todo');
 
         Assert::eq(Response::HTTP_OK, $this->response->getStatusCode());
     }
@@ -49,7 +44,7 @@ class AddTasksContext implements Context
      */
     public function iSeeAnEmptyList(): void
     {
-        $payload = json_decode($this->response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $payload = $this->obtainPayloadFromResponse();
 
         Assert::isEmpty($payload);
     }
@@ -62,17 +57,7 @@ class AddTasksContext implements Context
         $payload = [
             'task' => $taskDescription
         ];
-        $request = Request::create(
-            '/api/todo',
-            'POST',
-            [],
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            json_encode($payload, JSON_THROW_ON_ERROR)
-        );
-
-        $response = $this->kernel->handle($request);
+        $response = $this->apiPostWithPayload('/api/todo', $payload);
 
         Assert::eq($response->getStatusCode(), Response::HTTP_CREATED);
     }
@@ -82,7 +67,7 @@ class AddTasksContext implements Context
      */
     public function iSeeAListContaining(TableNode $table)
     {
-        $payload = json_decode($this->response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $payload = $this->obtainPayloadFromResponse();
 
         $expected = $table->getHash();
 
@@ -95,5 +80,35 @@ class AddTasksContext implements Context
     public function iHaveTasksInMyList()
     {
         throw new PendingException();
+    }
+
+    private function apiGet(string $uri): Response
+    {
+        $request = Request::create(
+            $uri,
+            'GET'
+        );
+
+        return $this->kernel->handle($request);
+    }
+
+    private function apiPostWithPayload(string $uri, array $payload): Response
+    {
+        $request = Request::create(
+            $uri,
+            'POST',
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($payload, JSON_THROW_ON_ERROR)
+        );
+
+        return $this->kernel->handle($request);
+    }
+
+    private function obtainPayloadFromResponse()
+    {
+        return json_decode($this->response->getContent(), true, 512, JSON_THROW_ON_ERROR);
     }
 }

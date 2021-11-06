@@ -21,12 +21,17 @@ class AddTaskHandler
 
     public function __invoke(AddTask $addTask): void
     {
+        $task = $this->buildTask($addTask);
+
+        $this->taskRepository->store($task);
+    }
+
+    public function buildTask(AddTask $addTask): Task
+    {
         $id = $this->taskIdentityProvider->nextId();
 
         $description = new TaskDescription($addTask->description());
 
-        $task = new Task($id, $description);
-
-        $this->taskRepository->store($task);
+        return new Task($id, $description);
     }
 }

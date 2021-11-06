@@ -23,10 +23,14 @@ class TodoListQueryBusSpec extends ObjectBehavior
         $getTasksQuery = new GetTasks($taskDataTransformer->getWrappedObject());
 
         $getTasksHandler->__invoke($getTasksQuery)->willReturn(['tasks collection']);
-        $this->beConstructedWith($handlerLocator);
 
         $this->execute($getTasksQuery)->shouldEqual(['tasks collection']);
 
         $getTasksHandler->__invoke($getTasksQuery)->shouldHaveBeenCalled();
+    }
+
+    public function let(HandlerLocator $handlerLocator): void
+    {
+        $this->beConstructedWith($handlerLocator);
     }
 }

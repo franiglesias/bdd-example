@@ -13,16 +13,20 @@ use PhpSpec\ObjectBehavior;
  */
 class TodoListCommandBusSpec extends ObjectBehavior
 {
+    private const TASK_DESCRIPTION = 'Task description';
+
+    public function let($handlerLocator): void
+    {
+        $this->beConstructedWith($handlerLocator);
+    }
+
     public function it_handles_command_to_handler(HandlerLocator $handlerLocator, AddTaskHandler $addTaskHandler): void
     {
-        $taskDescription = 'Task description';
-
         $handlerLocator->getHandlerFor(AddTask::class)->willReturn($addTaskHandler);
+        $addTaskCommand = new AddTask(self::TASK_DESCRIPTION);
 
-        $this->beConstructedWith($handlerLocator);
+        $this->execute($addTaskCommand);
 
-        $this->execute(new AddTask($taskDescription));
-
-        $addTaskHandler->__invoke(new AddTask($taskDescription))->shouldHaveBeenCalled();
+        $addTaskHandler->__invoke($addTaskCommand)->shouldHaveBeenCalled();
     }
 }
