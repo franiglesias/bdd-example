@@ -9,6 +9,6 @@ default:
             paths:
                 - 'design/Features' # This is where you will put your *.feature files
             contexts:
-                - App\Design\Contexts\DemoContext # This is where you will put your contexts
+                - Design\App\Contexts\YourContext # This is where you will put your contexts
     extensions:
         FriendsOfBehat\SymfonyExtension: { }
