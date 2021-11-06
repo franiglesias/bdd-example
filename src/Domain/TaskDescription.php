@@ -12,4 +12,9 @@ class TaskDescription
     {
         $this->description = $description;
     }
+
+    public function toString(): string
+    {
+        return $this->description;
+    }
 }

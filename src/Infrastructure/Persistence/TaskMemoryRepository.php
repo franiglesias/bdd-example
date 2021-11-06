@@ -12,17 +12,22 @@ final class TaskMemoryRepository implements TaskRepository
 
     public function store(Task $task): void
     {
-        $this->tasks[(string)$task->id()] = $task;
+        $this->tasks[$task->id()->toString()] = $task;
     }
 
     public function nextId(): int
     {
         $max = array_reduce(
             $this->tasks,
-            static fn($max, $task) => max((int)(string)$task->id(), $max),
+            static fn($max, $task) => max((int)$task->id()->toString(), $max),
             0
         );
 
         return $max + 1;
+    }
+
+    public function findAll(): array
+    {
+        return array_values($this->tasks);
     }
 }

@@ -19,4 +19,9 @@ class Task
     {
         return $this->id;
     }
+
+    public function description(): TaskDescription
+    {
+        return $this->description;
+    }
 }

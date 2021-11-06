@@ -13,7 +13,7 @@ class TaskId
         $this->id = $id;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->id;
     }

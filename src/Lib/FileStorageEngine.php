@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Lib;
 
-
 class FileStorageEngine
 {
     private string $filePath;
@@ -16,7 +15,7 @@ class FileStorageEngine
 
     public function loadObjects(string $class): array
     {
-        if (!file_exists($this->filePath)) {
+        if (! file_exists($this->filePath)) {
             return [];
         }
 

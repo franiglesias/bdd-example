@@ -2,21 +2,20 @@
 
 namespace Spec\App\Infrastructure\EntryPoint\Api;
 
-use App\Infrastructure\EntryPoint\Api\AddTaskController;
+use App\Application\GetTasks\GetTasks;
+use App\Application\GetTasks\TaskDataTransformer;
+use App\Application\QueryBus;
 use App\Infrastructure\EntryPoint\Api\GetTasksController;
 use PhpSpec\ObjectBehavior;
-use PhpSpec\Wrapper\Subject;
-use PhpSpec\Wrapper\Subject\WrappedObject;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @mixin GetTasksController
  */
 class GetTasksControllerSpec extends ObjectBehavior
 {
-    public function it_is_initializable(): void
+    public function let(QueryBus $queryBus, TaskDataTransformer $dataTransformer): void
     {
-        $this->shouldHaveType(GetTasksController::class);
+        $this->beConstructedWith($queryBus, $dataTransformer);
     }
 
     public function it_should_respond_with_OK(): void
@@ -24,5 +23,25 @@ class GetTasksControllerSpec extends ObjectBehavior
         $response = $this->__invoke();
 
         $response->getStatusCode()->shouldBe(200);
+    }
+
+    public function it_should_return_empty_collection_when_no_tasks(
+        QueryBus $queryBus,
+        TaskDataTransformer $dataTransformer
+    ): void {
+        $getTasksUseCase = new GetTasks($dataTransformer->getWrappedObject());
+        $taskCollection = [
+            [
+                'id' => '1',
+                'description' => 'Write a test that fails',
+                'done' => 'no'
+            ]
+        ];
+        $queryBus->execute($getTasksUseCase)->willReturn($taskCollection);
+
+        $response = $this->__invoke();
+
+        $queryBus->execute($getTasksUseCase)->shouldHaveBeenCalled();
+        $response->getContent()->shouldEqual(json_encode($taskCollection, JSON_THROW_ON_ERROR));
     }
 }

@@ -9,4 +9,6 @@ interface TaskRepository
     public function store(Task $task): void;
 
     public function nextId(): int;
+
+    public function findAll();
 }
