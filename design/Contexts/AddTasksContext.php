@@ -54,12 +54,7 @@ class AddTasksContext implements Context
      */
     public function iAddATaskWithDescription(string $taskDescription): void
     {
-        $payload = [
-            'task' => $taskDescription
-        ];
-        $response = $this->apiPostWithPayload('/api/todo', $payload);
-
-        Assert::eq($response->getStatusCode(), Response::HTTP_CREATED);
+        $this->addTaskToList($taskDescription);
     }
 
     /**
@@ -75,11 +70,23 @@ class AddTasksContext implements Context
     }
 
     /**
-     * @Given I have tasks in my list
+     * @Given /^I have this tasks in my list$/
      */
-    public function iHaveTasksInMyList()
+    public function iHaveThisTasksInMyList(TableNode $table)
     {
-        throw new PendingException();
+        $rows = $table->getColumnsHash();
+        foreach ($rows as $row) {
+            $this->addTaskToList($row['description']);
+        }
+    }
+
+    public function addTaskToList($description): void
+    {
+        $payload = [
+            'task' => $description
+        ];
+        $response = $this->apiPostWithPayload('/api/todo', $payload);
+        Assert::eq($response->getStatusCode(), Response::HTTP_CREATED);
     }
 
     private function apiGet(string $uri): Response

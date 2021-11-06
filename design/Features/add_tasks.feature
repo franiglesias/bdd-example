@@ -17,7 +17,9 @@ Feature: Add Tasks into the To-do list
       | 1  | Write a test that fails | no   |
 
   Scenario: Adding task to non empty to-do list
-    Given I have tasks in my list
+    Given I have this tasks in my list
+      | id | description             | done |
+      | 1  | Write a test that fails | no   |
     Given I add a task with description "Write code to make test pass"
     When I get my tasks
     Then I see a list containing:
