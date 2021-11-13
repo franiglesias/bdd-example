@@ -26,3 +26,14 @@ Feature: Add Tasks into the To-do list
       | id | description                  | done |
       | 1  | Write a test that fails      | no   |
       | 2  | Write code to make test pass | no   |
+
+  Scenario: Adding task without description to non empty to-do list
+    Given I have this tasks in my list
+      | id | description             | done |
+      | 1  | Write a test that fails | no   |
+    When I add a task with empty description
+    Then I get a bad request error
+    Then I get an error message that says "Task description is too short or empty"
+    Then The list contains:
+      | id | description             | done |
+      | 1  | Write a test that fails | no   |

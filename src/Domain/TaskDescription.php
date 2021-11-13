@@ -10,6 +10,10 @@ class TaskDescription
 
     public function __construct(string $description)
     {
+        if ($description === '') {
+            throw new InvalidTaskDescription();
+        }
+
         $this->description = $description;
     }
 

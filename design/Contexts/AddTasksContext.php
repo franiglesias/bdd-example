@@ -80,6 +80,51 @@ class AddTasksContext implements Context
         }
     }
 
+
+    /**
+     * @When /^I add a task with empty description$/
+     */
+    public function iAddATaskWithEmptyDescription(): void
+    {
+        $payload = [
+            'task' => ''
+        ];
+        $this->response = $this->apiPostWithPayload('/api/todo', $payload);
+    }
+
+    /**
+     * @Then /^I get a bad request error$/
+     */
+    public function iGetABadRequestError(): void
+    {
+        Assert::eq( $this->response->getStatusCode(), 400);
+    }
+
+
+    /**
+     * @Then /^I get an error message that says "([^"]*)"$/
+     */
+    public function iGetAnErrorMessageThatSays($expectedMessage): void
+    {
+        $payload = json_decode($this->response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+
+        $errorMessage = $payload['message'];
+        Assert::eq($errorMessage, $expectedMessage);
+    }
+
+    /**
+     * @Then /^The list contains:$/
+     */
+    public function theListContains(TableNode $table)
+    {
+        $this->response = $this->apiGet('/api/todo');
+        $payload = $this->obtainPayloadFromResponse();
+
+        $expected = $table->getHash();
+
+        Assert::eq($payload, $expected);
+    }
+
     public function addTaskToList($description): void
     {
         $payload = [
@@ -113,7 +158,6 @@ class AddTasksContext implements Context
 
         return $this->kernel->handle($request);
     }
-
     private function obtainPayloadFromResponse()
     {
         return json_decode($this->response->getContent(), true, 512, JSON_THROW_ON_ERROR);

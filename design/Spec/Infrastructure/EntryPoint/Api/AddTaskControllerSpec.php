@@ -4,6 +4,7 @@ namespace Spec\App\Infrastructure\EntryPoint\Api;
 
 use App\Application\AddTask\AddTask;
 use App\Application\CommandBus;
+use App\Domain\InvalidTaskDescription;
 use App\Infrastructure\EntryPoint\Api\AddTaskController;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,6 +46,25 @@ class AddTaskControllerSpec extends ObjectBehavior
         $this->__invoke($this->requestWithPayload(self::ANOTHER_TASK_DESCRIPTION));
 
         $commandBus->execute(new AddTask(self::ANOTHER_TASK_DESCRIPTION))->shouldHaveBeenCalled();
+    }
+
+    public function it_fails_with_bad_request_when_task_description_is_empty(CommandBus $commandBus): void
+    {
+        $commandBus->execute(new AddTask(''))->willThrow(InvalidTaskDescription::class);
+        
+        $response = $this->__invoke($this->requestWithPayload(''));
+
+        $response->getStatusCode()->shouldBe(400);
+    }
+
+    public function it_notifies_error_when_task_description_is_empty(CommandBus $commandBus): void
+    {
+        $commandBus->execute(new AddTask(''))->willThrow(InvalidTaskDescription::class);
+
+        $response = $this->__invoke($this->requestWithPayload(''));
+
+        $payload = ['message' => 'Task description is too short or empty'];
+        $response->getContent()->shouldBe(json_encode($payload, JSON_THROW_ON_ERROR));
     }
 
     private function requestWithPayload(string $taskDescription): Request
