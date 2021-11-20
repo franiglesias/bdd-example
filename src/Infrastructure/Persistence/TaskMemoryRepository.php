@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace App\Infrastructure\Persistence;
 
 use App\Domain\Task;
+use App\Domain\TaskId;
 use App\Domain\TaskRepository;
 
 final class TaskMemoryRepository implements TaskRepository
@@ -29,5 +30,10 @@ final class TaskMemoryRepository implements TaskRepository
     public function findAll(): array
     {
         return array_values($this->tasks);
+    }
+
+    public function retrieve(TaskId $taskId): Task
+    {
+        return $this->tasks[$taskId->toString()];
     }
 }

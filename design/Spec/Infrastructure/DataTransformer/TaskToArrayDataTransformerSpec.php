@@ -28,4 +28,13 @@ class TaskToArrayDataTransformerSpec extends ObjectBehavior
             TaskRepresentationExamples::arrayFromData(self::ID, self::DESCRIPTION)
         );
     }
+
+    public function it_should_transform_completed_tasks(): void
+    {
+        $task = TaskExamples::completed();
+
+        $this->transform($task)->shouldEqual(
+            TaskRepresentationExamples::completed()
+        );
+    }
 }

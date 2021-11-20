@@ -37,3 +37,6 @@ services:
           - registerHandler:
               - 'App\Application\GetTasks\GetTasks'
               - '@App\Application\GetTasks\GetTasksHandler'
+          - registerHandler:
+              - 'App\Application\MarkTaskCompleted\MarkTaskCompleted'
+              - '@App\Application\MarkTaskCompleted\MarkTaskCompletedHandler'

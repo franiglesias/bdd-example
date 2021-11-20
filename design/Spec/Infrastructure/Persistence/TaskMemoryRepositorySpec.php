@@ -2,6 +2,7 @@
 
 namespace Spec\App\Infrastructure\Persistence;
 
+use App\Domain\TaskId;
 use App\Infrastructure\Persistence\TaskMemoryRepository;
 use PhpSpec\ObjectBehavior;
 use Spec\App\Domain\TaskExamples;
@@ -32,5 +33,15 @@ class TaskMemoryRepositorySpec extends ObjectBehavior
         $this->store($task);
         $this->store($anotherTask);
         $this->findAll()->shouldEqual([$task, $anotherTask]);
+    }
+
+    public function it_should_retrieve_existing_task_by_id(): void
+    {
+        $task = TaskExamples::withData(self::TASK_ID, self::TASK_DESCRIPTION);
+        $anotherTask = TaskExamples::withData(self::ANOTHER_TASK_ID, self::ANOTHER_TASK_DESCRIPTION);
+
+        $this->store($task);
+        $this->store($anotherTask);
+        $this->retrieve(new TaskId(self::TASK_ID))->shouldEqual($task);
     }
 }

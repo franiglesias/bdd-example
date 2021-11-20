@@ -7,3 +7,8 @@ api_add_task:
   path: /api/todo
   controller: App\Infrastructure\EntryPoint\Api\AddTaskController
   methods: ['POST']
+
+api_mark_task:
+  path: /api/todo/{taskId}
+  controller: App\Infrastructure\EntryPoint\Api\MarkTaskController
+  methods: ['PATCH']

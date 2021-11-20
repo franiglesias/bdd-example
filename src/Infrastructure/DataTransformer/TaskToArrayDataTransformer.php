@@ -14,7 +14,7 @@ final class TaskToArrayDataTransformer implements TaskDataTransformer
         return [
             'id' => $task->id()->toString(),
             'description' => $task->description()->toString(),
-            'done' => 'no'
+            'done' => $task->isCompleted() ? 'yes' : 'no'
         ];
     }
 }

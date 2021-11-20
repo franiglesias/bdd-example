@@ -14,4 +14,13 @@ class TaskRepresentationExamples
             'done' => 'no'
         ];
     }
+
+    public static function completed(): array
+    {
+        return [
+            'id' => '1',
+            'description' => 'Task Description',
+            'done' => 'yes'
+        ];
+    }
 }

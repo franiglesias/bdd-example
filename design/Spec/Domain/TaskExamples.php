@@ -17,4 +17,12 @@ class TaskExamples
             new TaskDescription($description)
         );
     }
+
+    public static function completed(): Task
+    {
+        $task = self::withData('1', 'Task Description');
+        $task->markCompleted();
+
+        return $task;
+    }
 }
