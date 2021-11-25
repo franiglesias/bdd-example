@@ -60,7 +60,7 @@ class AddTasksContext implements Context
     /**
      * @Then I see a list containing:
      */
-    public function iSeeAListContaining(TableNode $table)
+    public function iSeeAListContaining(TableNode $table): void
     {
         $payload = $this->obtainPayloadFromResponse();
 
@@ -72,7 +72,7 @@ class AddTasksContext implements Context
     /**
      * @Given /^I have this tasks in my list$/
      */
-    public function iHaveThisTasksInMyList(TableNode $table)
+    public function iHaveThisTasksInMyList(TableNode $table): void
     {
         $rows = $table->getColumnsHash();
         foreach ($rows as $row) {
@@ -115,7 +115,7 @@ class AddTasksContext implements Context
     /**
      * @Then /^The list contains:$/
      */
-    public function theListContains(TableNode $table)
+    public function theListContains(TableNode $table): void
     {
         $this->response = $this->apiGet('/api/todo');
         $payload = $this->obtainPayloadFromResponse();
