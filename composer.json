@@ -74,6 +74,7 @@
     "friends-of-behat/mink-browserkit-driver": "^1.5",
     "friends-of-behat/mink-extension": "^2.5",
     "friends-of-behat/symfony-extension": "^2.2",
+    "mikey179/vfsstream": "^1.6",
     "phpspec/phpspec": "^7.1",
     "phpunit/phpunit": "^7.0",
     "roave/security-advisories": "dev-latest"

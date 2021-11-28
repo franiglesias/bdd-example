@@ -44,6 +44,9 @@
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
+    "mikey179/vfsstream": {
+        "version": "v1.6.10"
+    },
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },
