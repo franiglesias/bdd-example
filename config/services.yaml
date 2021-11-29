@@ -29,6 +29,11 @@ services:
     App\Lib\FileStorageEngine:
         arguments: [ 'repository.data' ]
 
+    App\Domain\TaskRepository:
+        class: App\Infrastructure\Persistence\FileTaskRepository
+        arguments:
+            - '@App\Lib\FileStorageEngine'
+
     App\Infrastructure\CommandBus\HandlerLocator:
         calls:
           - registerHandler:

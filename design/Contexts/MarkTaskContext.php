@@ -15,6 +15,9 @@ class MarkTaskContext implements Context
     public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
+		if (file_exists(__DIR__ . '/../../repository.data')) {
+			unlink(__DIR__ . '/../../repository.data');
+		}
     }
 
     /**

@@ -24,3 +24,5 @@
 /behat.yml
 ###< friends-of-behat/symfony-extension ###
 /phpspec.yml
+/repository.data
+/public/repository.data

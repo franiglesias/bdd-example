@@ -10,7 +10,7 @@ interface TaskRepository
 
     public function nextId(): int;
 
-    public function findAll();
+    public function findAll(): array;
 
     public function retrieve(TaskId $taskId): Task;
 }

@@ -36,4 +36,10 @@ class Task
     {
         return $this->done;
     }
+
+	public function same(Task $anotherTask): bool
+	{
+		return $this->id()->toString() === $anotherTask->id()->toString() &&
+			$this->description()->toString() === $anotherTask->description()->toString();
+	}
 }
