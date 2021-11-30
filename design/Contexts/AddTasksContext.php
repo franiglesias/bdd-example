@@ -6,7 +6,6 @@ namespace Design\App\Contexts;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert as PHPUnitAssert;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Webmozart\Assert\Assert;
@@ -22,6 +21,7 @@ class AddTasksContext implements Context
 		if (file_exists(__DIR__ . '/../../repository.data')) {
 			unlink(__DIR__ . '/../../repository.data');
 		}
+		$this->apiClient = new SymfonyApiClient($kernel);
 	}
 
 	/**
@@ -140,37 +140,12 @@ class AddTasksContext implements Context
 
 	private function apiGet(string $uri): ApiResponse
 	{
-		$request = Request::create(
-			$uri,
-			'GET'
-		);
-
-		$response = $this->kernel->handle($request);
-
-		return new ApiResponse(
-			$response->getStatusCode(),
-			$response->getContent()
-		);
+		return $this->apiClient->apiGet($uri);
 	}
 
 	private function apiPostWithPayload(string $uri, array $payload): ApiResponse
 	{
-		$request = Request::create(
-			$uri,
-			'POST',
-			[],
-			[],
-			[],
-			['CONTENT_TYPE' => 'application/json'],
-			json_encode($payload, JSON_THROW_ON_ERROR)
-		);
-
-		$response = $this->kernel->handle($request);
-
-		return new ApiResponse(
-			$response->getStatusCode(),
-			$response->getContent()
-		);
+		return $this->apiClient->apiPostWithPayload($uri, $payload);
 	}
 
 	private function obtainPayloadFromResponse()

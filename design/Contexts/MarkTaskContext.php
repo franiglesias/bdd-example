@@ -7,6 +7,7 @@ use Behat\Behat\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Webmozart\Assert\Assert;
+use const true;
 
 class MarkTaskContext implements Context
 {
@@ -18,6 +19,7 @@ class MarkTaskContext implements Context
 		if (file_exists(__DIR__ . '/../../repository.data')) {
 			unlink(__DIR__ . '/../../repository.data');
 		}
+		$this->apiClient = new SymfonyApiClient($kernel);
     }
 
     /**
@@ -25,23 +27,13 @@ class MarkTaskContext implements Context
      */
     public function iMarkTaskAsCompleted(string $taskId): void
     {
-        $request = Request::create(
-            '/api/todo/'.$taskId,
-            'PATCH',
-            [],
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            json_encode(['done' => true], JSON_THROW_ON_ERROR)
-        );
+		$apiResponse = $this->apiPatchWithPayload($taskId, ['done' => true]);
 
-        $response = $this->kernel->handle($request);
-
-		$apiResponse = new ApiResponse(
-			$response->getStatusCode(),
-			$response->getContent()
-		);
-
-        Assert::eq(200, $apiResponse->statusCode());
+		Assert::eq(200, $apiResponse->statusCode());
     }
+
+	private function apiPatchWithPayload(string $taskId, array $payload): ApiResponse
+	{
+		return $this->apiClient->apiPatchWithPayload($taskId, $payload);
+	}
 }
