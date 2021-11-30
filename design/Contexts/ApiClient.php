@@ -12,4 +12,6 @@ interface ApiClient
 	public function apiGet(string $uri): ApiResponse;
 
 	public function apiPostWithPayload(string $uri, array $payload): ApiResponse;
+
+	public function apiPatchWithPayload(string $taskId, array $payload): ApiResponse;
 }
