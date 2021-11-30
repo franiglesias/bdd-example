@@ -37,6 +37,11 @@ class MarkTaskContext implements Context
 
         $response = $this->kernel->handle($request);
 
-        Assert::eq(200, $response->getStatusCode());
+		$apiResponse = new ApiResponse(
+			$response->getStatusCode(),
+			$response->getContent()
+		);
+
+        Assert::eq(200, $apiResponse->statusCode());
     }
 }

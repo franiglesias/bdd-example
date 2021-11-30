@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
 class AddTasksContext implements Context
 {
 	private KernelInterface $kernel;
-	private Response $response;
+	private ApiResponse $apiResponse;
 
 	public function __construct(KernelInterface $kernel)
 	{
@@ -37,9 +37,9 @@ class AddTasksContext implements Context
 	 */
 	public function iGetMyTasks(): void
 	{
-		$this->response = $this->apiGet('/api/todo');
+		$this->apiResponse = $this->apiGet('/api/todo');
 
-		Assert::eq(Response::HTTP_OK, $this->response->getStatusCode());
+		Assert::eq(Response::HTTP_OK, $this->apiResponse->statusCode());
 	}
 
 	/**
@@ -89,10 +89,10 @@ class AddTasksContext implements Context
 	 */
 	public function iAddATaskWithEmptyDescription(): void
 	{
-		$payload        = [
+		$payload           = [
 			'task' => '',
 		];
-		$this->response = $this->apiPostWithPayload('/api/todo', $payload);
+		$this->apiResponse = $this->apiPostWithPayload('/api/todo', $payload);
 	}
 
 	/**
@@ -100,7 +100,7 @@ class AddTasksContext implements Context
 	 */
 	public function iGetABadRequestError(): void
 	{
-		Assert::eq($this->response->getStatusCode(), 400);
+		Assert::eq($this->apiResponse->statusCode(), 400);
 	}
 
 
@@ -109,7 +109,7 @@ class AddTasksContext implements Context
 	 */
 	public function iGetAnErrorMessageThatSays($expectedMessage): void
 	{
-		$payload = json_decode($this->response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+		$payload = $this->apiResponse->payload();
 
 		$errorMessage = $payload['message'];
 		Assert::eq($errorMessage, $expectedMessage);
@@ -120,8 +120,8 @@ class AddTasksContext implements Context
 	 */
 	public function theListContains(TableNode $table): void
 	{
-		$this->response = $this->apiGet('/api/todo');
-		$payload        = $this->obtainPayloadFromResponse();
+		$this->apiResponse = $this->apiGet('/api/todo');
+		$payload           = $this->obtainPayloadFromResponse();
 
 		$expected = $table->getHash();
 
@@ -130,24 +130,30 @@ class AddTasksContext implements Context
 
 	public function addTaskToList($description): void
 	{
-		$payload  = [
+		$payload     = [
 			'task' => $description,
 		];
-		$response = $this->apiPostWithPayload('/api/todo', $payload);
-		Assert::eq($response->getStatusCode(), Response::HTTP_CREATED);
+		$apiResponse = $this->apiPostWithPayload('/api/todo', $payload);
+
+		Assert::eq($apiResponse->statusCode(), Response::HTTP_CREATED);
 	}
 
-	private function apiGet(string $uri): Response
+	private function apiGet(string $uri): ApiResponse
 	{
 		$request = Request::create(
 			$uri,
 			'GET'
 		);
 
-		return $this->kernel->handle($request);
+		$response = $this->kernel->handle($request);
+
+		return new ApiResponse(
+			$response->getStatusCode(),
+			$response->getContent()
+		);
 	}
 
-	private function apiPostWithPayload(string $uri, array $payload): Response
+	private function apiPostWithPayload(string $uri, array $payload): ApiResponse
 	{
 		$request = Request::create(
 			$uri,
@@ -159,11 +165,16 @@ class AddTasksContext implements Context
 			json_encode($payload, JSON_THROW_ON_ERROR)
 		);
 
-		return $this->kernel->handle($request);
+		$response = $this->kernel->handle($request);
+
+		return new ApiResponse(
+			$response->getStatusCode(),
+			$response->getContent()
+		);
 	}
 
 	private function obtainPayloadFromResponse()
 	{
-		return json_decode($this->response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+		return $this->apiResponse->payload();
 	}
 }
