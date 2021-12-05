@@ -5,6 +5,10 @@ A dockerized dojo project to support the series of articles.
 * https://franiglesias.github.io/outside-in-with-behat-phpspec/
 * https://franiglesias.github.io/outside-in-with-behat-phpspec-2/
 * https://franiglesias.github.io/outside-in-with-behat-phpspec-3/
+* https://franiglesias.github.io/outside-in-with-behat-phpspec-4/
+* https://franiglesias.github.io/outside-in-with-behat-phpspec-5/
+* https://franiglesias.github.io/outside-in-with-behat-phpspec-6/
+* https://franiglesias.github.io/outside-in-with-behat-phpspec-7/
 
 This is a base project that can serve as starting point or dojo to practice with php testing and symfony.
 
