@@ -7,9 +7,9 @@ namespace Design\App\Contexts;
 interface ApiClient
 {
 
-	public function apiGet(string $uri): ApiResponse;
+	public function get(string $uri): ApiResponse;
 
-	public function apiPostWithPayload(string $uri, array $payload): ApiResponse;
+	public function postWithPayload(string $uri, array $payload): ApiResponse;
 
-	public function apiPatchWithPayload(string $uri, array $payload): ApiResponse;
+	public function patchWithPayload(string $uri, array $payload): ApiResponse;
 }

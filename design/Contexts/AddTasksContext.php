@@ -43,7 +43,7 @@ class AddTasksContext implements Context
 	 */
 	public function iGetMyTasks(): void
 	{
-		$this->apiResponse = $this->apiGet('/api/todo');
+		$this->apiResponse = $this->apiClient->get('/api/todo');
 
 		Assert::eq(Response::HTTP_OK, $this->apiResponse->statusCode());
 	}
@@ -53,7 +53,7 @@ class AddTasksContext implements Context
 	 */
 	public function iSeeAnEmptyList(): void
 	{
-		$payload = $this->obtainPayloadFromResponse();
+		$payload = $this->apiResponse->payload();
 
 		Assert::isEmpty($payload);
 	}
@@ -71,7 +71,7 @@ class AddTasksContext implements Context
 	 */
 	public function iSeeAListContaining(TableNode $table): void
 	{
-		$payload = $this->obtainPayloadFromResponse();
+		$payload = $this->apiResponse->payload();
 
 		$expected = $table->getHash();
 
@@ -98,7 +98,7 @@ class AddTasksContext implements Context
 		$payload           = [
 			'task' => '',
 		];
-		$this->apiResponse = $this->apiPostWithPayload('/api/todo', $payload);
+		$this->apiResponse = $this->apiClient->postWithPayload('/api/todo', $payload);
 	}
 
 	/**
@@ -126,8 +126,8 @@ class AddTasksContext implements Context
 	 */
 	public function theListContains(TableNode $table): void
 	{
-		$this->apiResponse = $this->apiGet('/api/todo');
-		$payload           = $this->obtainPayloadFromResponse();
+		$this->apiResponse = $this->apiClient->get('/api/todo');
+		$payload           = $this->apiResponse->payload();
 
 		$expected = $table->getHash();
 
@@ -139,23 +139,8 @@ class AddTasksContext implements Context
 		$payload     = [
 			'task' => $description,
 		];
-		$apiResponse = $this->apiPostWithPayload('/api/todo', $payload);
+		$apiResponse = $this->apiClient->postWithPayload('/api/todo', $payload);
 
 		Assert::eq($apiResponse->statusCode(), Response::HTTP_CREATED);
-	}
-
-	private function apiGet(string $uri): ApiResponse
-	{
-		return $this->apiClient->apiGet($uri);
-	}
-
-	private function apiPostWithPayload(string $uri, array $payload): ApiResponse
-	{
-		return $this->apiClient->apiPostWithPayload($uri, $payload);
-	}
-
-	private function obtainPayloadFromResponse()
-	{
-		return $this->apiResponse->payload();
 	}
 }

@@ -18,7 +18,7 @@ final class GuzzleApiClient implements ApiClient
 		$this->baseUrl = $baseUrl;
 	}
 
-	public function apiGet(string $uri): ApiResponse
+	public function get(string $uri): ApiResponse
 	{
 		$response = $this->client->get($this->baseUrl . $uri);
 
@@ -28,7 +28,7 @@ final class GuzzleApiClient implements ApiClient
 		);
 	}
 
-	public function apiPostWithPayload(string $uri, array $payload): ApiResponse
+	public function postWithPayload(string $uri, array $payload): ApiResponse
 	{
 		try {
 			$response = $this->client->post(
@@ -45,7 +45,7 @@ final class GuzzleApiClient implements ApiClient
 		);
 	}
 
-	public function apiPatchWithPayload(string $uri, array $payload): ApiResponse
+	public function patchWithPayload(string $uri, array $payload): ApiResponse
 	{
 		$response = $this->client->patch(
 			$this->baseUrl . $uri,

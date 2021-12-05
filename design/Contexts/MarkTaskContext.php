@@ -32,13 +32,8 @@ class MarkTaskContext implements Context
 	 */
 	public function iMarkTaskAsCompleted(string $taskId): void
 	{
-		$apiResponse = $this->apiPatchWithPayload($taskId, ['done' => true]);
+		$apiResponse = $this->apiClient->patchWithPayload('/api/todo/' . $taskId, ['done' => true]);
 
 		Assert::eq(200, $apiResponse->statusCode());
-	}
-
-	private function apiPatchWithPayload(string $taskId, array $payload): ApiResponse
-	{
-		return $this->apiClient->apiPatchWithPayload('/api/todo/' . $taskId, $payload);
 	}
 }

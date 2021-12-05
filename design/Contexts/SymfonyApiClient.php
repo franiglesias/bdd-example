@@ -18,7 +18,7 @@ final class SymfonyApiClient implements ApiClient
 		$this->kernel = $kernel;
 	}
 
-	public function apiGet(string $uri): ApiResponse
+	public function get(string $uri): ApiResponse
 	{
 		$request = Request::create(
 			$uri,
@@ -33,7 +33,7 @@ final class SymfonyApiClient implements ApiClient
 		);
 	}
 
-	public function apiPostWithPayload(string $uri, array $payload): ApiResponse
+	public function postWithPayload(string $uri, array $payload): ApiResponse
 	{
 		$request = Request::create(
 			$uri,
@@ -53,7 +53,7 @@ final class SymfonyApiClient implements ApiClient
 		);
 	}
 
-	public function apiPatchWithPayload(string $uri, array $payload): ApiResponse
+	public function patchWithPayload(string $uri, array $payload): ApiResponse
 	{
 		$request = Request::create(
 			$uri,
