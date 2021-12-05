@@ -27,7 +27,7 @@ services:
     # please note that last definitions always *replace* previous ones
 
     App\Lib\FileStorageEngine:
-        arguments: [ 'repository.data' ]
+        arguments: [ '%kernel.project_dir%/var/repository.data' ]
 
     App\Domain\TaskRepository:
         class: App\Infrastructure\Persistence\FileTaskRepository

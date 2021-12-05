@@ -33,4 +33,10 @@ class FileStorageEngine
         fclose($file);
     }
 
+	public function reset(): void
+	{
+		if (file_exists($this->filePath)) {
+			unlink($this->filePath);
+		}
+	}
 }
