@@ -3,25 +3,31 @@ declare (strict_types=1);
 
 namespace Design\App\Contexts;
 
+use App\Lib\FileStorageEngine;
 use Behat\Behat\Context\Context;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert as PHPUnitAssert;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Webmozart\Assert\Assert;
 
 class AddTasksContext implements Context
 {
-	private KernelInterface $kernel;
 	private ApiResponse $apiResponse;
+	private ApiClient $apiClient;
 
-	public function __construct(KernelInterface $kernel)
+	public function __construct()
 	{
-		$this->kernel = $kernel;
-		if (file_exists(__DIR__ . '/../../repository.data')) {
-			unlink(__DIR__ . '/../../repository.data');
-		}
-		$this->apiClient = new SymfonyApiClient($kernel);
+		$this->apiClient = new GuzzleApiClient('http://bdd-webserver');
+	}
+
+	/**
+	 * @BeforeScenario
+	 */
+	public function resetDatabase(BeforeScenarioScope $scope): void
+	{
+		$file = new FileStorageEngine(__DIR__ . '/../../var/repository.data');
+		$file->reset();
 	}
 
 	/**

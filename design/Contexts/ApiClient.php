@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Design\App\Contexts;
 
-use Symfony\Component\HttpFoundation\Request;
-
 interface ApiClient
 {
 
@@ -13,5 +11,5 @@ interface ApiClient
 
 	public function apiPostWithPayload(string $uri, array $payload): ApiResponse;
 
-	public function apiPatchWithPayload(string $taskId, array $payload): ApiResponse;
+	public function apiPatchWithPayload(string $uri, array $payload): ApiResponse;
 }

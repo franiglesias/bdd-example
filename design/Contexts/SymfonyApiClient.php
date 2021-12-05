@@ -53,10 +53,10 @@ final class SymfonyApiClient implements ApiClient
 		);
 	}
 
-	public function apiPatchWithPayload(string $taskId, array $payload): ApiResponse
+	public function apiPatchWithPayload(string $uri, array $payload): ApiResponse
 	{
 		$request = Request::create(
-			'/api/todo/' . $taskId,
+			$uri,
 			'PATCH',
 			[],
 			[],
