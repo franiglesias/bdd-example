@@ -104,7 +104,7 @@ Endpoints:
 
 ## The process
 
-Outside-in TDD is about doing some up-front design in the red stage. In Classicist TDD, design comes with the refactoring phase, so you are designing in the green stage. This is because, outside-in puts the focus on the communication between units instead of its state.
+Outside-in TDD is about doing some up-front design in the red stage. In Classicist TDD, design comes with the refactoring phase, so you are designing in the green stage. This is because outside-in puts the focus on the communication between units instead of its state.
 
 The Outside-in approach uses two loops:
 
@@ -113,9 +113,9 @@ The Outside-in approach uses two loops:
 
 First, we will create an acceptance test using the data in the example, performing the calls to the endpoints as needed.
 
-When POSTing and PATCHing we will not have a direct outcome. We can only test trough the GET /api/todo endpoint. We can use the Location header.
+When POSTing and PATCHing we will not have a direct outcome. We can only test trough the `GET /api/todo` endpoint. We can use the Location header.
 
-Our test should fail because of the right reason, so our first target should be to make the acceptance test fail because the GET /api/todo doesn't return the task list as we expected (It returns an empty list, for example).
+Our test must fail because of the right reason, so our first target should be to make the acceptance test fail because the `GET /api/todo` doesn't return the task list as we expected (It returns an empty list, for example).
 
 This means that we will have to develop/configure all things needed to have live API endpoints:
 
